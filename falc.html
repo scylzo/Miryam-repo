@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Version Facile à Lire et à Comprendre (FALC) | Myriam Darracq</title>
+  <meta name="description" content="Présentation simple et facile à comprendre de l'accompagnement éducatif de Myriam Darracq." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <style>
+    .falc-container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 30px;
+      box-shadow: var(--ombre);
+      font-size: 1.3rem; /* Police plus grande pour la lisibilité */
+      line-height: 1.8;
+    }
+    
+    .falc-container h1 {
+      font-size: 2.8rem;
+      margin-bottom: 24px;
+      border-bottom: 3px solid var(--corail);
+      padding-bottom: 12px;
+    }
+    
+    .falc-container h2 {
+      font-size: 2rem;
+      margin-top: 35px;
+      margin-bottom: 15px;
+      color: var(--vert-fonce);
+    }
+    
+    .falc-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      background: var(--beige);
+      padding: 15px;
+      border-radius: 16px;
+    }
+    
+    .falc-logo img {
+      width: 60px;
+      height: 60px;
+    }
+    
+    .falc-bullet-list {
+      list-style-type: none;
+      padding-left: 0;
+      margin: 20px 0;
+    }
+    
+    .falc-bullet-list li {
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 15px;
+    }
+    
+    .falc-bullet-list li::before {
+      content: "➔";
+      position: absolute;
+      left: 0;
+      color: var(--corail);
+      font-weight: bold;
+    }
+    
+    .falc-box {
+      background: var(--beige);
+      border-left: 6px solid var(--vert);
+      padding: 20px;
+      border-radius: 0 16px 16px 0;
+      margin: 25px 0;
+    }
+    
+    .btn-falc {
+      display: inline-block;
+      background: var(--corail);
+      color: white;
+      padding: 18px 30px;
+      border-radius: 999px;
+      font-weight: 700;
+      margin-top: 25px;
+      box-shadow: 0 10px 20px rgba(233,112,93,.2);
+      text-align: center;
+    }
+    
+    .btn-falc:hover {
+      transform: translateY(-2px);
+      background: var(--vert-fonce);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header (Simplifié) -->
+  <header>
+    <div class="container navbar">
+      <a href="index.html" class="brand">
+        <img src="images/logo1.png" alt="Logo Myriam Darracq">
+        <div>
+          <div class="brand-name">Myriam Darracq</div>
+          <div class="brand-job">Éducatrice spécialisée</div>
+        </div>
+      </a>
+      
+      <nav aria-label="Menu principal">
+        <ul>
+          <li><a href="index.html">Retour au site principal</a></li>
+        </ul>
+      </nav>
+      
+      <div class="header-actions">
+        <a class="btn btn-primary" href="index.html#contact">Me contacter</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="falc-container">
+      
+      <div class="falc-logo">
+        <span style="font-size: 2.5rem;" aria-hidden="true">ℹ️</span>
+        <div>
+          <strong>Informations faciles à lire et à comprendre (FALC)</strong>
+          <p style="font-size: 1rem; margin: 0; color: var(--muted);">Ce texte aide à comprendre facilement ce que je fais.</p>
+        </div>
+      </div>
+
+      <h1>Présentation de mon travail</h1>
+      
+      <p>Je m'appelle <strong>Myriam Darracq</strong>.</p>
+      <p>Je suis **éducatrice spécialisée**.</p>
+      <p>J'aide les enfants, les adolescents et leurs familles à vivre plus sereinement.</p>
+
+      <h2>Où est-ce que je travaille ?</h2>
+      <p>Je me déplace directement dans les lieux de vie du jeune :</p>
+      <ul class="falc-bullet-list">
+        <li><strong>À la maison :</strong> pour aider aux habitudes de tous les jours (repas, coucher).</li>
+        <li><strong>À l'école :</strong> pour aider à suivre les cours et se faire des amis.</li>
+        <li><strong>Pendant les loisirs :</strong> pour participer à des activités et sortir dehors.</li>
+      </ul>
+
+      <h2>Comment est-ce que je vous aide ?</h2>
+      <ul class="falc-bullet-list">
+        <li>J'apprends à vous connaître.</li>
+        <li>Nous décidons ensemble de ce qu'il faut améliorer.</li>
+        <li>Je propose des outils simples comme des images ou des pictogrammes pour communiquer.</li>
+        <li>J'aide le jeune à devenir plus autonome (faire les choses seul).</li>
+      </ul>
+
+      <div class="falc-box">
+        <strong>Important :</strong> Je travaille dans la ville de <strong>Montpellier</strong> et dans les communes autour (jusqu'à 30 kilomètres).
+      </div>
+
+      <h2>Combien ça coûte ?</h2>
+      <ul class="falc-bullet-list">
+        <li>La première rencontre est <strong>gratuite</strong>.</li>
+        <li>Ensuite, cela coûte <strong>50 euros pour une heure</strong>.</li>
+      </ul>
+
+      <h2>Comment me contacter ?</h2>
+      <p>Vous pouvez me téléphoner ou m'envoyer un e-mail :</p>
+      <ul class="falc-bullet-list">
+        <li>Téléphone : <strong>07 62 35 52 18</strong></li>
+        <li>E-mail : <strong>myriamdarracq.educatrice@gmail.com</strong></li>
+      </ul>
+      
+      <div style="text-align: center;">
+        <a href="index.html" class="btn-falc">Retourner à la page d'accueil principale</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div>© Myriam Darracq — Éducatrice spécialisée libérale</div>
+      <div>
+        <a href="mentions-legales.html" style="text-decoration: underline;">Mentions légales</a> · 
+        <a href="politique-confidentialite.html" style="text-decoration: underline;">Politique de confidentialité</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
