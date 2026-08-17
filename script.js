@@ -1,60 +1,4 @@
 (function () {
-  // Initialisation de la carte Leaflet
-  function initMap() {
-    const mapElement = document.getElementById("map");
-    const fallback = document.getElementById("map-fallback");
-
-    if (!mapElement) {
-      return;
-    }
-
-    if (typeof L === "undefined") {
-      if (fallback) fallback.style.display = "block";
-      return;
-    }
-
-    // Évite d'initialiser deux fois la même carte si le script est relancé.
-    if (mapElement._leaflet_id) {
-      return;
-    }
-
-    // Coordonnées du quartier Saint-Clément à Montpellier
-    const centreSaintClement = [43.615, 3.845];
-
-    const map = L.map(mapElement, {
-      scrollWheelZoom: false,
-      zoomControl: true,
-      attributionControl: true,
-    });
-
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "&copy; OpenStreetMap contributors",
-      maxZoom: 19,
-    }).addTo(map);
-
-    const cercle = L.circle(centreSaintClement, {
-      radius: 30000, // Cercle de 30 km d'intervention
-      color: "#4f6f63",
-      fillColor: "#aab8b1",
-      fillOpacity: 0.30,
-      weight: 3,
-    }).addTo(map);
-
-    // Cadrage automatique : le cercle de 30 km est visible dès l'ouverture.
-    map.fitBounds(cercle.getBounds(), { padding: [24, 24] });
-
-    // Corrige les cartes blanches quand Leaflet calcule la taille trop tôt.
-    setTimeout(function () {
-      map.invalidateSize();
-      map.fitBounds(cercle.getBounds(), { padding: [24, 24] });
-    }, 250);
-
-    setTimeout(function () {
-      map.invalidateSize();
-      map.fitBounds(cercle.getBounds(), { padding: [24, 24] });
-    }, 1000);
-  }
-
   // Initialisation du formulaire de contact et vérifications RGPD
   function initForm() {
     const form = document.querySelector('form');
@@ -132,12 +76,8 @@
   // Chargement des scripts au chargement du DOM de manière sécurisée
   function safeInit() {
     console.log("safeInit: Lancement des initialisations");
-    try {
-      initMap();
-    } catch (e) {
-      console.error("Erreur lors de l'initialisation de la carte Leaflet:", e);
-    }
-    
+
+
     try {
       initForm();
     } catch (e) {

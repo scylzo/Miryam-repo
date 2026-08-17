@@ -33,8 +33,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Handlee&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Leaflet Map CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
   
   <!-- Custom CSS -->
   <link rel="stylesheet" href="style.css" />
@@ -338,8 +337,17 @@
         <div class="panel">
           <h2>Secteur d’intervention</h2>
           <p>Montpellier et communes environnantes, dans un rayon d’environ 30 km.</p>
-          <div id="map" aria-label="Carte du secteur d'intervention de 30 km autour de Montpellier"></div>
-          <p class="map-fallback" id="map-fallback">La carte ne s’est pas chargée. Vérifiez votre connexion internet ou réessayez plus tard.</p>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d93744.68!2d3.7758776!3d43.6116684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b6af55f8f0af9b%3A0x30625e234bfb8bd4!2sMontpellier!5e0!3m2!1sfr!2sfr!4v1692271234567!5m2!1sfr!2sfr"
+            width="100%"
+            height="320"
+            style="border:0; border-radius: 22px;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Secteur d'intervention de Myriam Darracq autour de Montpellier"
+            aria-label="Carte Google Maps du secteur d'intervention"
+          ></iframe>
           <p class="map-note">Si vous avez un doute concernant votre localisation, contactez-moi.</p>
         </div>
         
@@ -471,9 +479,7 @@
     </div>
   </footer>
 
-  <!-- Leaflet Map JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  
+
   <!-- Custom JS -->
   <script src="script.js"></script>
 </body>
