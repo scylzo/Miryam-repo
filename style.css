@@ -1268,6 +1268,8 @@ footer {
   }
   .hero {
     padding-top: 45px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   .hero-photo {
     height: 380px;
