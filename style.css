@@ -1059,6 +1059,30 @@ details p {
   margin: 4px 0 0;
 }
 
+.form-feedback {
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  display: none;
+  font-weight: 500;
+}
+
+.form-feedback.success {
+  display: block;
+  background-color: #e7faf0;
+  color: #085229;
+  border: 1.5px solid #13ce66;
+}
+
+.form-feedback.error {
+  display: block;
+  background-color: #ffeded;
+  color: #8c1e1e;
+  border: 1.5px solid #ff4949;
+}
+
 /* Footer */
 footer {
   background: var(--vert-fonce);

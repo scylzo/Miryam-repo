@@ -1,39 +1,102 @@
 (function () {
   // Initialisation du formulaire de contact et vérifications RGPD
   function initForm() {
-    const form = document.querySelector('form');
-    if (!form) return;
+    console.log("initForm: Initialisation du formulaire de contact");
+    const form = document.getElementById('contact-form') || document.querySelector('form');
+    if (!form) {
+      console.warn("initForm: Formulaire non trouvé");
+      return;
+    }
 
-    form.addEventListener('submit', function (e) {
-      // Si l'action est '#' ou vide, on simule l'envoi client pour la validation visuelle
+    const feedback = document.getElementById('form-feedback');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async function (e) {
+      console.log("submit: Clic d'envoi détecté sur le formulaire");
       const actionAttr = form.getAttribute('action');
-      if (actionAttr === '#' || !actionAttr) {
-        e.preventDefault();
+      
+      // Si aucune action configurée, ne rien faire de spécial
+      if (!actionAttr || actionAttr === '#') {
+        console.warn("submit: Action non configurée ou #");
+        return;
+      }
 
-        // Récupérer le bouton d'envoi
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (!submitBtn) return;
+      e.preventDefault();
 
-        const originalText = submitBtn.textContent;
+      // Vérification validation native HTML5
+      if (!form.checkValidity()) {
+        console.log("submit: Formulaire non valide selon les règles HTML5");
+        form.reportValidity();
+        return;
+      }
+
+      // Protection antispam Honeypot (si rempli par un robot, on bloque silencieusement)
+      const honeypot = form.querySelector('input[name="email_address_check"]');
+      if (honeypot && honeypot.value.trim() !== '') {
+        console.warn('Spam détecté.');
+        return;
+      }
+
+      const originalText = submitBtn ? submitBtn.textContent : "Envoyer ma demande";
+      if (submitBtn) {
         submitBtn.textContent = "Envoi de votre demande en cours...";
         submitBtn.disabled = true;
+      }
 
-        // Simulation d'envoi
-        setTimeout(function () {
-          submitBtn.textContent = "Demande envoyée avec succès !";
-          submitBtn.style.backgroundColor = "var(--vert)";
-          submitBtn.style.color = "white";
+      if (feedback) {
+        feedback.style.display = 'none';
+        feedback.className = 'form-feedback';
+        feedback.textContent = '';
+      }
+
+      try {
+        const formData = new FormData(form);
+
+        // Nettoyer les espaces éventuels dans le numéro de téléphone pour Brevo
+        const phoneVal = formData.get('SMS');
+        if (phoneVal) {
+          formData.set('SMS', phoneVal.toString().replace(/[\s.-]/g, ''));
+        }
+
+        const response = await fetch(actionAttr, {
+          method: 'POST',
+          body: formData,
+          mode: 'cors'
+        });
+
+        if (response.ok) {
+          if (feedback) {
+            feedback.className = 'form-feedback success';
+            feedback.textContent = "Votre demande a bien été envoyée ! Myriam vous répondra dans les plus brefs délais.";
+            feedback.style.display = 'block';
+          }
+
+          if (submitBtn) {
+            submitBtn.textContent = "Demande envoyée avec succès !";
+            submitBtn.style.backgroundColor = "var(--vert)";
+            submitBtn.style.color = "white";
+          }
 
           form.reset();
-
-          // Restauration du bouton après 4 secondes
-          setTimeout(function () {
+        } else {
+          throw new Error('Erreur HTTP ' + response.status);
+        }
+      } catch (err) {
+        console.error("Erreur lors de l'envoi du formulaire Brevo:", err);
+        if (feedback) {
+          feedback.className = 'form-feedback error';
+          feedback.textContent = "Une erreur est survenue lors de l'envoi (vérifiez si un bloqueur de publicités bloque la requête). Vous pouvez également me joindre directement au 07 62 35 52 18 ou par e-mail.";
+          feedback.style.display = 'block';
+        }
+      } finally {
+        setTimeout(function () {
+          if (submitBtn) {
             submitBtn.textContent = originalText;
             submitBtn.style.backgroundColor = "";
             submitBtn.style.color = "";
             submitBtn.disabled = false;
-          }, 4000);
-        }, 1500);
+          }
+        }, 6000);
       }
     });
   }
