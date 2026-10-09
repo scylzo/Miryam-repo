@@ -13,13 +13,7 @@
 
     form.addEventListener('submit', async function (e) {
       console.log("submit: Clic d'envoi détecté sur le formulaire");
-      const actionAttr = form.getAttribute('action');
-      
-      // Si aucune action configurée, ne rien faire de spécial
-      if (!actionAttr || actionAttr === '#') {
-        console.warn("submit: Action non configurée ou #");
-        return;
-      }
+      const actionAttr = form.getAttribute('action') || "https://formsubmit.co/myriamdarracq.educatrice@gmail.com";
 
       e.preventDefault();
 
@@ -30,8 +24,8 @@
         return;
       }
 
-      // Protection antispam Honeypot (si rempli par un robot, on bloque silencieusement)
-      const honeypot = form.querySelector('input[name="email_address_check"]');
+      // Protection antispam Honeypot
+      const honeypot = form.querySelector('input[name="_honey"]');
       if (honeypot && honeypot.value.trim() !== '') {
         console.warn('Spam détecté.');
         return;
@@ -39,7 +33,7 @@
 
       const originalText = submitBtn ? submitBtn.textContent : "Envoyer ma demande";
       if (submitBtn) {
-        submitBtn.textContent = "Envoi de votre demande en cours...";
+        submitBtn.textContent = "Envoi de votre message...";
         submitBtn.disabled = true;
       }
 
@@ -49,43 +43,75 @@
         feedback.textContent = '';
       }
 
+      // Avertissement spécifique si le fichier est ouvert en local (double-clic file://)
+      if (window.location.protocol === 'file:') {
+        if (feedback) {
+          feedback.className = 'form-feedback error';
+          feedback.textContent = "Note : Vous visualisez le site en local (file://). Pour envoyer de vrais e-mails, le formulaire fonctionne sur votre site en ligne déployé (Vercel) ou via un serveur local.";
+          feedback.style.display = 'block';
+        }
+        if (submitBtn) {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+        return;
+      }
+
       try {
         const formData = new FormData(form);
-
-        // Nettoyer les espaces éventuels dans le numéro de téléphone pour Brevo
-        const phoneVal = formData.get('SMS');
-        if (phoneVal) {
-          formData.set('SMS', phoneVal.toString().replace(/[\s.-]/g, ''));
-        }
-
-        const response = await fetch(actionAttr, {
-          method: 'POST',
-          body: formData,
-          mode: 'cors'
+        const data = {};
+        formData.forEach(function (value, key) {
+          if (key !== '_honey') {
+            data[key] = value;
+          }
         });
 
-        if (response.ok) {
+        // Endpoint AJAX de FormSubmit
+        const ajaxEndpoint = actionAttr.includes('/ajax/')
+          ? actionAttr
+          : actionAttr.replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+        const response = await fetch(ajaxEndpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && (result.success === "true" || result.success === true)) {
           if (feedback) {
             feedback.className = 'form-feedback success';
-            feedback.textContent = "Votre demande a bien été envoyée ! Myriam vous répondra dans les plus brefs délais.";
+            feedback.textContent = "Votre message a bien été envoyé ! Myriam vous répondra dans les plus brefs délais.";
             feedback.style.display = 'block';
           }
 
           if (submitBtn) {
-            submitBtn.textContent = "Demande envoyée avec succès !";
+            submitBtn.textContent = "Message envoyé avec succès !";
             submitBtn.style.backgroundColor = "var(--vert)";
             submitBtn.style.color = "white";
           }
 
           form.reset();
+        } else if (result.message && result.message.toLowerCase().includes("activation")) {
+          // Premier envoi : demande d'activation par e-mail
+          if (feedback) {
+            feedback.className = 'form-feedback success';
+            feedback.textContent = "Message envoyé ! Lors de ce premier envoi, vérifiez la boîte mail myriamdarracq.educatrice@gmail.com et cliquez sur le lien d'activation pour valider le formulaire.";
+            feedback.style.display = 'block';
+          }
+          form.reset();
         } else {
-          throw new Error('Erreur HTTP ' + response.status);
+          throw new Error(result.message || 'Erreur lors de l\'envoi');
         }
       } catch (err) {
-        console.error("Erreur lors de l'envoi du formulaire Brevo:", err);
+        console.error("Erreur lors de l'envoi du formulaire:", err);
         if (feedback) {
           feedback.className = 'form-feedback error';
-          feedback.textContent = "Une erreur est survenue lors de l'envoi (vérifiez si un bloqueur de publicités bloque la requête). Vous pouvez également me joindre directement au 07 62 35 52 18 ou par e-mail.";
+          feedback.textContent = "Une erreur est survenue lors de l'envoi. Vous pouvez également me joindre directement par téléphone au 07 62 35 52 18 ou par e-mail à myriamdarracq.educatrice@gmail.com.";
           feedback.style.display = 'block';
         }
       } finally {
