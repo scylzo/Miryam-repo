@@ -1126,7 +1126,7 @@ footer {
 }
 
 .footer-social-link--insta {
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  background: #E1306C;
 }
 
 .footer-social-link--fb {
@@ -1462,7 +1462,7 @@ footer {
 }
 
 .social-link--insta {
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  background: #E1306C;
   border-color: transparent;
 }
 
