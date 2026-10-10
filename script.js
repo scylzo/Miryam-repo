@@ -140,25 +140,44 @@
     }
 
     function toggleMenu() {
-      console.log("toggleMenu: Clic détecté sur le bouton hamburger");
       const isOpen = toggleBtn.classList.toggle('active');
       navMenu.classList.toggle('active');
       toggleBtn.setAttribute('aria-expanded', isOpen);
-      console.log("toggleMenu: Classes actives basculées. État ouvert =", isOpen);
+      toggleBtn.setAttribute('aria-label', isOpen ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation');
       
       // Empêche le défilement de l'arrière-plan du site lorsque le menu est ouvert
       document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
+    function closeMenu() {
+      if (navMenu.classList.contains('active')) {
+        toggleBtn.classList.remove('active');
+        navMenu.classList.remove('active');
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.setAttribute('aria-label', 'Ouvrir le menu de navigation');
+        document.body.style.overflow = '';
+      }
+    }
+
     toggleBtn.addEventListener('click', toggleMenu);
 
-    // Ferme le menu lors du clic sur un lien (car ce sont des liens vers des ancres de la page)
+    // Ferme le menu lors du clic sur un lien
     navLinks.forEach(function (link) {
-      link.addEventListener('click', function () {
-        if (navMenu.classList.contains('active')) {
-          toggleMenu();
-        }
-      });
+      link.addEventListener('click', closeMenu);
+    });
+
+    // Ferme le menu si clic sur l'arrière-plan
+    navMenu.addEventListener('click', function (e) {
+      if (e.target === navMenu) {
+        closeMenu();
+      }
+    });
+
+    // Accessibilité : Fermeture avec la touche Échap
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+        closeMenu();
+      }
     });
   }
 

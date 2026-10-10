@@ -1335,6 +1335,57 @@ footer {
     font-weight: 600;
     margin-top: 10px;
   }
+  .hero-visual::before {
+    width: 260px;
+    height: 260px;
+    right: -10px;
+    top: -10px;
+  }
+  .contact-info a {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  .social-links {
+    flex-wrap: wrap;
+  }
+  .navbar:not(.has-mobile-menu) nav ul {
+    font-size: 0.85rem;
+  }
+  .navbar:not(.has-mobile-menu) .header-actions {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .hero-buttons .btn {
+    width: 100%;
+    text-align: center;
+  }
+  .form-card {
+    padding: 24px 18px;
+    border-radius: 20px;
+  }
+  .form-card button[type="submit"] {
+    width: 100%;
+  }
+  .btn {
+    white-space: normal;
+    text-align: center;
+  }
+  .legal-container,
+  .falc-container {
+    padding: 24px 18px !important;
+    margin: 20px auto !important;
+    border-radius: 20px !important;
+  }
+  .legal-container h1,
+  .falc-container h1 {
+    font-size: 2rem !important;
+  }
+  .legal-container h2,
+  .falc-container h2 {
+    font-size: 1.4rem !important;
+  }
 }
 
 @media (max-width: 400px) {
