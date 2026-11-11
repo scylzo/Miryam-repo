@@ -1518,3 +1518,31 @@ button:focus-visible {
   height: 24px;
   border-radius: 4px;
 }
+
+/* Select du formulaire : même apparence que les autres champs */
+.form-card select {
+  -webkit-appearance: none;
+  appearance: none;
+  padding-left: 16px;
+  padding-right: 40px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23757575' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+.form-card select:has(option[value=""]:checked) {
+  color: #757575; /* même gris que les placeholders */
+}
+
+.form-card select option {
+  color: var(--texte);
+}
+
+.form-card input::placeholder,
+.form-card textarea::placeholder {
+  color: #757575;
+}
+
+.form-card select:focus {
+  background-color: white;
+}
