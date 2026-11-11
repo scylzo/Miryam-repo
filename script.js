@@ -100,7 +100,7 @@
           // Premier envoi : demande d'activation par e-mail
           if (feedback) {
             feedback.className = 'form-feedback success';
-            feedback.textContent = "Message envoyé ! Lors de ce premier envoi, vérifiez la boîte mail myriamdarracq.educatrice@gmail.com et cliquez sur le lien d'activation pour valider le formulaire.";
+            feedback.textContent = "Message envoyé ! Merci, je vous répondrai dans les plus brefs délais.";
             feedback.style.display = 'block';
           }
           form.reset();
@@ -205,3 +205,24 @@
     safeInit();
   }
 })();
+
+// Carte du secteur d'intervention : cercle de 30 km autour de Montpellier
+document.addEventListener("DOMContentLoaded", function () {
+  var el = document.getElementById("map");
+  if (!el || typeof L === "undefined") return;
+  var center = [43.6117, 3.8767];
+  var map = L.map(el, { scrollWheelZoom: false }).setView(center, 9);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: "&copy; OpenStreetMap"
+  }).addTo(map);
+  L.marker(center).addTo(map);
+  var circle = L.circle(center, {
+    radius: 30000,
+    color: "#2e7d32",
+    weight: 2,
+    fillColor: "#2e7d32",
+    fillOpacity: 0.08
+  }).addTo(map);
+  map.fitBounds(circle.getBounds(), { padding: [10, 10] });
+});

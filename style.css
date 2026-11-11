@@ -1505,3 +1505,16 @@ button:focus-visible {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* Logo FALC dans le menu */
+.falc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.falc-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+}
