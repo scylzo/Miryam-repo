@@ -220,7 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
     maxZoom: 18,
     attribution: "&copy; OpenStreetMap"
   }).addTo(map);
-  L.marker(center).addTo(map);
   var circle = L.circle(center, {
     radius: 30000,
     color: "#2e7d32",
