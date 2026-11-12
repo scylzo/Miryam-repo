@@ -1546,3 +1546,11 @@ button:focus-visible {
 .form-card select:focus {
   background-color: white;
 }
+
+/* Flou léger à l'intérieur du cercle de la carte */
+.map-blur {
+  position: absolute;
+  border-radius: 50%;
+  -webkit-backdrop-filter: blur(0.6px);
+  backdrop-filter: blur(0.6px);
+}

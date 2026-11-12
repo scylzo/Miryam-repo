@@ -210,8 +210,12 @@
 document.addEventListener("DOMContentLoaded", function () {
   var el = document.getElementById("map");
   if (!el || typeof L === "undefined") return;
-  var center = [43.6117, 3.8767];
-  var map = L.map(el, { scrollWheelZoom: false }).setView(center, 9);
+  var center = [43.6150309, 3.83927]; // 150 avenue Paul Bringuier, Montpellier
+  var map = L.map(el, {
+    scrollWheelZoom: false,
+    zoomAnimation: false,
+    zoomSnap: 0.1
+  }).setView(center, 9);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 18,
     attribution: "&copy; OpenStreetMap"
@@ -224,5 +228,24 @@ document.addEventListener("DOMContentLoaded", function () {
     fillColor: "#2e7d32",
     fillOpacity: 0.08
   }).addTo(map);
-  map.fitBounds(circle.getBounds(), { padding: [10, 10] });
+  map.fitBounds(circle.getBounds(), { padding: [2, 2] });
+
+  // Léger flou à l'intérieur du cercle (backdrop-filter ne fonctionne pas sur un tracé SVG)
+  var RADIUS_M = 30000;
+  var pane = map.createPane("blurPane");
+  pane.style.zIndex = 450;
+  pane.style.pointerEvents = "none";
+  var blur = L.DomUtil.create("div", "map-blur", pane);
+
+  function updateBlur() {
+    var dLng = RADIUS_M / (111320 * Math.cos((center[0] * Math.PI) / 180));
+    var c = map.latLngToLayerPoint(center);
+    var e = map.latLngToLayerPoint([center[0], center[1] + dLng]);
+    var r = Math.abs(e.x - c.x);
+    blur.style.width = blur.style.height = 2 * r + "px";
+    blur.style.left = c.x - r + "px";
+    blur.style.top = c.y - r + "px";
+  }
+  map.on("zoom move moveend resize viewreset", updateBlur);
+  updateBlur();
 });
